@@ -1,0 +1,76 @@
+﻿@using Station.Domain.Entities
+@using Station.ServicesInterfaces
+@page "/Vihical"
+<br />
+
+<h3>Vehicals List</h3>
+<button class="btn btn-primary" @onclick="ShowAddModal">Add New Vihical</button>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Plate</th>
+           
+            
+        </tr>
+    </thead>
+    <tbody>
+        @if (vehicals == null)
+{
+    <span>Loading...</span>
+}
+        else{
+        @foreach (var veh in vehicals)
+        {
+            <tr>
+                <td>@veh.Type</td>
+                <td>@veh.Plate</td>
+               
+                <td>
+                    
+                    <button class="btn btn-secondary" @onclick="() => ShowEditModal(veh)">Edit</button>
+                    <button class="btn btn-danger" @onclick="() => DeleteVehicel(veh)">Delete</button>
+                </td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>
+
+ 
+<AddVehicel @ref="addVehicel" OnSave="RefreshList"/> 
+
+@code {
+    [Inject] IVehicalRep vehicalRep { set; get; }
+    private IEnumerable<Vehical> vehicals;
+    private AddVehicel addVehicel;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadVehice();
+    }
+
+     private void ShowAddModal()
+     {
+         addVehicel.Show(new Vehical());
+     }
+
+     private void ShowEditModal(Vehical vehical)
+     {
+         addVehicel.Show(vehical);
+     }
+
+    private async Task LoadVehice()
+    {
+        vehicals = await vehicalRep.Get();
+    }
+    private async Task DeleteVehicel(Vehical vehical)
+    {
+        await vehicalRep.Delete(vehical);
+    }
+    private async void RefreshList()
+    {
+        await LoadVehice();
+    }
+}

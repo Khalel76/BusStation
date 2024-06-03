@@ -1,0 +1,78 @@
+@using Station.Domain.Entities
+@using Station.ServicesInterfaces
+@page "/Journey"
+<br />
+
+<h3>Journey List</h3>
+<button class="btn btn-primary" @onclick="ShowAddModal">Add New Vihical</button>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Destination</th>
+            <th>Price</th>
+            <th>Date</th>
+            <th>Employee ID</th>
+            <th>Driver ID</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var jor in journeys)
+        {
+            <tr>
+                <td>@jor.Destination</td>
+                <td>@jor.Price</td>
+                <td>@jor.Date</td>
+                <td>@jor.EmployeeId</td>
+                <td>@jor.DriverId</td>
+                <td>
+                    
+                    <button class="btn btn-secondary" @onclick="() => ShowEditModal(jor)">Edit</button>
+                    <button class="btn btn-danger" @onclick="() => DeleteJourney(jor)">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+ 
+<AddJourney @ref="addJourney" OnSave="RefreshList"/> 
+
+@code {
+    [Inject] IJourneyRep JourneyRep { set; get; }
+    @* [Inject] IVehicalRep vehicalRep {set; get;}
+    private string Type ; *@
+    
+    private IEnumerable<Journey> journeys;
+    private AddJourney addJourney;
+    
+
+
+    protected override void OnInitialized()
+    {
+        LoadJourney();
+    }
+
+     private void ShowAddModal()
+     {
+         addJourney.Show(new Journey());
+     }
+
+     private void ShowEditModal(Journey journey)
+     {
+         addJourney.Show(journey);
+     }
+
+    private void LoadJourney()
+    {
+        journeys = JourneyRep.Get();
+    }
+    private void DeleteJourney(Journey journey)
+    {
+        JourneyRep.Delete(journey);
+    }
+    private void RefreshList()
+    {
+        LoadJourney();
+    }
+}

@@ -1,0 +1,105 @@
+﻿@using Station.Domain.Entities
+@using Station.ServicesInterfaces
+
+@if (isVisible)
+{
+    <br />
+        <br />
+    <br />
+
+    <div class="modal show" tabindex="-1" style="display: block;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@((employees.Id == 0) ? "Add Employee" : "Edit Employee")</h5>
+                    <button type="button" class="btn-close" aria-label="Close" @onclick="Cancel"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                         <MudTextField Label="Name" HelperText=""
+                              @bind-Value="employees.Name" For="@(() => employees.Name)"/> 
+                    </div>
+                    <div class="mb-3">
+                
+
+                        <MudTextField Label="Salary" HelperText=""
+                              @bind-Value="employees.Salary" For="@(() => employees.Salary)"/> 
+                    </div>
+                    <div class="mb-3">
+                
+
+                        <MudTextField Label="UserName" HelperText=""
+                              @bind-Value="employees.UserName" For="@(() => employees.UserName)"/> 
+                    </div>
+                    <div class="mb-3">
+                
+
+                        <MudTextField Label="Password" HelperText=""
+                              @bind-Value="employees.Password" For="@(() => employees.Password)" InputType="InputType.Password"/> 
+                    </div>
+                    <div class="mb-3">
+                        
+
+                        <MudTextField Label="HireDate" HelperText=""
+                              @bind-Value="employees.HireDate" For="@(() => employees.HireDate)" InputType="InputType.Date"/> 
+                    </div>
+                    <div class="mb-3">
+                        
+
+                        <MudTextField Label="Email" HelperText=""
+                              @bind-Value="employees.Email" For="@(() => employees.Email)"/> 
+                    </div>
+                    <div class="mb-3">
+                        
+
+                        <MudTextField Label="Address" HelperText=""
+                              @bind-Value="employees.Address" /> 
+                    </div>
+                    <div class="mb-3">
+                        <MudCheckBox T="bool" Label="Active" @bind-Value="employees.IsActive" For="@(() => employees.IsActive)"/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="Cancel">Cancel</button>
+                    <button type="button" class="btn btn-primary" @onclick="Save">Save</button>
+                </div>
+     </div>
+        </div>
+    </div>
+   
+    }
+@code {
+    [Parameter] public EventCallback OnSave { get; set; }
+    [Inject] public IEmployeeRep EmployeeRep{ get; set; }
+
+
+    private bool isVisible;
+
+    private Employee employees = new();
+
+    public void Show(Employee employees)
+    {
+        this.employees = employees;
+        isVisible = true;
+    }
+    private void Save()
+    {
+        if (employees.Id == 0)
+        {
+            EmployeeRep.Create(employees);
+        }
+        else
+        {
+            EmployeeRep.Update(employees);
+        }
+
+        isVisible = false;
+        OnSave.InvokeAsync();
+    }
+
+    private void Cancel()
+    {
+        isVisible = false;
+    }
+}
+

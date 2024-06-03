@@ -1,0 +1,78 @@
+
+
+
+@using Station.Domain.Entities
+@using Station.ServicesInterfaces
+
+@if (isVisible)
+{
+    <br />
+        <br />
+    <br />
+
+    <div class="modal show" tabindex="-1" style="display: block;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@((driver.Id == 0) ? "Add Vehical" : "Edit Vehical")</h5>
+                    <button type="button" class="btn-close" aria-label="Close" @onclick="Cancel"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                       
+                    <MudTextField Label="Name" HelperText=""
+                              @bind-Value="driver.Name" For="@(() => driver.Name)"/>    
+                    </div>
+                    <div class="mb-3">
+                    <MudTextField Label="Phone" HelperText=""
+                              @bind-Value="driver.Phone" For="@(() => driver.Phone)"/> 
+                    </div>
+                      <div class="mb-3">
+                    <MudTextField Label="Vehical ID" HelperText=""
+                              @bind-Value="driver.VehicalId" For="@(() => driver.VehicalId)"/> 
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="Cancel">Cancel</button>
+                    <button type="button" class="btn btn-primary" @onclick="Save">Save</button>
+                </div>
+     </div>
+        </div>
+    </div>
+   
+    }
+@code {
+    [Parameter] public EventCallback OnSave { get; set; }
+    [Inject] public IDriverRep driverRep{ get; set; }
+
+
+    private bool isVisible;
+
+    private Driver driver = new();
+
+    public void Show(Driver driver)
+    {
+        this.driver = driver;
+        isVisible = true;
+    }
+    private void Save()
+    {
+        if (driver.Id == 0)
+        {
+            driverRep.Create(driver);
+        }
+        else
+        {
+            driverRep.Update(driver);
+        }
+
+        isVisible = false;
+        OnSave.InvokeAsync();
+    }
+
+    private void Cancel()
+    {
+        isVisible = false;
+    }
+}
+

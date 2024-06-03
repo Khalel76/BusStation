@@ -1,0 +1,70 @@
+@page "/RegisterAccount"
+@layout PublicLayout
+@using StationUI.Components.Layout;
+@using System.ComponentModel.DataAnnotations
+@using Station.Domain.Entities
+@using Station.ServicesInterfaces
+
+
+<EditForm Model="@customer" >
+<DataAnnotationsValidator/>
+<MudGrid>
+    <MudItem xs="12" sm="7">
+        <MudCard>
+            <MudCardContent>
+                <MudTextField Label="Email" Class="mt-3"
+                              @bind-Value="customer.Email" For="@(() => customer.Email)" InputType="InputType.Email" />
+
+                <MudTextField Label="Name" 
+                              @bind-Value="customer.Name" For="@(() => customer.Name)"/>
+
+                <MudTextField Label="Phone number" 
+                              @bind-Value="customer.Phone" For="@(() => customer.Phone)" InputType="InputType.Number"/>
+
+                <MudTextField Label="User name" 
+                              @bind-Value="customer.UserName" For="@(() => customer.UserName)"/>
+
+                <MudTextField Label="Password" Class="mt-3"
+                              @bind-Value="customer.Password" For="@(() => customer.Password)" InputType="InputType.Password"/>
+                
+                
+                <MudSelect  @bind-Value="@customer.Gender"  HelperText="Gender">
+                   <MudSelectItem Value="@('m')">male</MudSelectItem>
+                   <MudSelectItem Value="@('f')">female</MudSelectItem>
+                </MudSelect>
+
+            </MudCardContent>
+            <MudCardActions>
+<button type="button" class="btn btn-primary" @onclick="Save">Save</button>            
+</MudCardActions>
+        </MudCard>
+    </MudItem>
+   </MudGrid>
+</EditForm>
+
+@code {
+    private Customer customer = new();
+    private bool isVisible;
+    
+     [Parameter] public EventCallback OnSave { get; set; }
+    [Inject] public ICustomerRep CustomerRep{ get; set; }
+
+   
+
+    private void Save()
+    {
+        if (customer.Id == 0)
+        {
+            CustomerRep.Create(customer);
+        }
+        else
+        {
+            CustomerRep.Update(customer);
+        }
+
+         isVisible = false;
+        OnSave.InvokeAsync();
+    }
+
+}
+

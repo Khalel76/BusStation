@@ -1,0 +1,86 @@
+
+
+
+@using Station.Domain.Entities
+@using Station.ServicesInterfaces
+
+@if (isVisible)
+{
+    <br />
+        <br />
+    <br />
+
+    <div class="modal show" tabindex="-1" style="display: block;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@((journey.Id == 0) ? "Add journey" : "Edit journey")</h5>
+                    <button type="button" class="btn-close" aria-label="Close" @onclick="Cancel"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                       
+                    <MudTextField Label="Destination" HelperText=""
+                              @bind-Value="journey.Destination" For="@(() => journey.Destination)"/>    
+                    </div>
+                    <div class="mb-3">
+                    <MudTextField Label="Price" HelperText=""
+                              @bind-Value="journey.Price" For="@(() => journey.Price)"/> 
+                    </div>
+                     <div class="mb-3">
+                    <MudTextField Label="Date" HelperText="" InputType="InputType.Date"
+                              @bind-Value="journey.Date" For="@(() => journey.Date)"/> 
+                    </div>
+                      <div class="mb-3">
+                    <MudTextField Label="Employee ID" HelperText=""
+                              @bind-Value="journey.EmployeeId" For="@(() => journey.EmployeeId)"/> 
+                    </div>
+                    <div class="mb-3">
+                    <MudTextField Label="Driver ID" HelperText=""
+                              @bind-Value="journey.DriverId" For="@(() => journey.DriverId)"/> 
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="Cancel">Cancel</button>
+                    <button type="button" class="btn btn-primary" @onclick="Save">Save</button>
+                </div>
+     </div>
+        </div>
+    </div>
+   
+    }
+@code {
+    [Parameter] public EventCallback OnSave { get; set; }
+    [Inject] public IJourneyRep journeyRep{ get; set; }
+
+
+    private bool isVisible;
+
+    private Journey journey = new();
+
+    public void Show(Journey journey)
+    {
+        this.journey = journey;
+        isVisible = true;
+    }
+    private void Save()
+    {
+        if (journey.Id == 0)
+        {
+            journeyRep.Create(journey);
+        }
+        else
+        {
+            journeyRep.Update(journey);
+        }
+
+        isVisible = false;
+        OnSave.InvokeAsync();
+    }
+
+    private void Cancel()
+    {
+        isVisible = false;
+    }
+}
+

@@ -1,0 +1,81 @@
+@using Station.Domain.Entities
+@using Station.ServicesInterfaces
+@page "/Driver"
+<br />
+
+<h3>Drivers List</h3>
+<button class="btn btn-primary" @onclick="ShowAddModal">Add New Vihical</button>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Vehical Type</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var dri in Drivers)
+        {
+            <tr>
+                <td>@dri.Name</td>
+                <td>@dri.Phone</td>
+                <td>@GetType(dri.VehicalId)</td>
+               
+                <td>
+                    
+                    <button class="btn btn-secondary" @onclick="() => ShowEditModal(dri)">Edit</button>
+                    <button class="btn btn-danger" @onclick="() => DeleteDriver(dri)">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+ 
+<AddDriver @ref="addDriver" OnSave="RefreshList"/> 
+
+@code {
+    [Inject] IVehicalRep vehicalRep { set; get;}
+    [Inject] IDriverRep DriverRep { set; get; }
+    @* [Inject] IVehicalRep vehicalRep {set; get;}
+    private string Type ; *@
+    private string Type ;
+    private IEnumerable<Driver> Drivers;
+    private AddDriver addDriver;
+    
+    private string GetType (int id)
+    {
+        Type= vehicalRep.GetType(id);
+        return Type;
+    }
+
+    protected override void OnInitialized()
+    {
+        LoadDreivers();
+    }
+
+     private void ShowAddModal()
+     {
+         addDriver.Show(new Driver());
+     }
+
+     private void ShowEditModal(Driver driver)
+     {
+         addDriver.Show(driver);
+     }
+
+    private void LoadDreivers()
+    {
+        Drivers = DriverRep.Get();
+    }
+    private void DeleteDriver(Driver driver)
+    {
+        DriverRep.Delete(driver);
+    }
+    private void RefreshList()
+    {
+        LoadDreivers();
+    }
+}

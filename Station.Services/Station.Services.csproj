@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Station.Domain\Station.Domain.csproj" />
+    <ProjectReference Include="..\Station.Persistance\Station.Persistance.csproj" />
+    <ProjectReference Include="..\Station.ServicesInterfaces\Station.ServicesInterfaces.csproj" />
+  </ItemGroup>
+
+</Project>

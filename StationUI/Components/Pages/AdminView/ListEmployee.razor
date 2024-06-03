@@ -1,0 +1,75 @@
+﻿@page "/Employees"
+
+
+@using Station.Domain.Entities
+@using Station.ServicesInterfaces
+<br />
+
+<h3>Employees List</h3>
+<button class="btn btn-primary" @onclick="ShowAddModal">Add New Employee</button>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Salary</th>
+           
+            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var emp in employees)
+        {
+            <tr>
+                <td>@emp.Id</td>
+                <td>@emp.Name</td>
+                <td>@emp.Salary</td>
+               
+                <td>
+                    
+                    <button class="btn btn-secondary" @onclick="() => ShowEditModal(emp)">Edit</button>
+                    <button class="btn btn-danger" @onclick="() => DeleteBook(emp)">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<AddEmployee @ref="addEmployee" OnSave="RefreshList" />
+@code {
+    [Inject] IEmployeeRep EmployeeRep { get; set; }
+    private IEnumerable<Employee> employees;
+    private AddEmployee addEmployee;
+   
+    protected override void OnInitialized()
+    {
+        LoadEmployee();
+    }
+
+    private void LoadEmployee()
+    {
+        employees = EmployeeRep.Get();
+    }
+
+    private void ShowAddModal()
+    {
+        addEmployee.Show(new Employee());
+    }
+
+    private void ShowEditModal(Employee employee)
+    {
+        addEmployee.Show(employee);
+    }
+
+    private void DeleteBook(Employee employee)
+    {
+        EmployeeRep.Delete(employee);
+        LoadEmployee();
+    }
+
+    private void RefreshList()
+    {
+        LoadEmployee();
+    }
+}

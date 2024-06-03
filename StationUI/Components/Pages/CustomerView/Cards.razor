@@ -1,0 +1,47 @@
+@page "/Cards"
+@using Station.Domain.Entities
+@using Station.ServicesInterfaces
+ @foreach (var t in journeys) 
+{
+ <MudCard>
+    <MudCardMedia Image="images/door.jpg" Height="200" />
+    <MudCardContent>
+        <MudText Typo="Typo.h5">@t.Destination</MudText>
+        <MudText Typo="Typo.body2">Date @t.Date </MudText>
+        <MudText Typo="Typo.body2">price $@t.Price</MudText>
+    </MudCardContent>
+    <MudCardActions>
+        
+       <button type="button" class="btn btn-secondary" @onclick="@(()=>AddBooking(@normal,@t.Price,@t.Date,1,@t.Id))">normal</button>
+       <button type="button" class="btn btn-primary" @onclick="@(()=>AddBooking(@normal,@t.Price,@t.Date,1,@t.Id))">VIP</button>    
+</MudCardActions>
+</MudCard> 
+
+}
+
+@code
+{
+    [Inject] IBookingRep bookingRep {get;set;}
+    [Inject] IJourneyRep journeyRep {get;set;}
+    private IEnumerable<Journey> journeys ;
+    private char normal = 'n';
+    private char vip = 'v';
+
+    protected override void OnInitialized()
+    {
+        LoadJourneys();
+    }
+        private void LoadJourneys()
+    {
+        journeys = journeyRep.Get();
+    }
+    private void RefreshList()
+    {
+        LoadJourneys();
+    }
+    private void AddBooking ( char type , float price , DateTime Date , int coustemrId , int journeyId)
+    {
+        bookingRep.AutoCreate(type , price , Date , coustemrId , journeyId);
+    }
+
+}    

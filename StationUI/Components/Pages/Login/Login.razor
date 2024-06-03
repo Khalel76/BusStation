@@ -1,0 +1,37 @@
+﻿
+@page "/Login"
+@layout PublicLayout
+@using StationUI.Components.Layout;
+@using System.ComponentModel.DataAnnotations
+@using Station.Domain.Entities
+@using Station.ServicesInterfaces
+
+
+<EditForm Model="@customer" >
+<DataAnnotationsValidator/>
+<MudGrid>
+    <MudItem xs="12" sm="7">
+        <MudCard>
+            <MudCardContent>
+                
+        
+                <MudTextField Label="User name" 
+                              @bind-Value="customer.UserName" For="@(() => customer.UserName)"/>
+
+                <MudTextField Label="Password" Class="mt-3"
+                              @bind-Value="customer.Password" For="@(() => customer.Password)" InputType="InputType.Password"/>
+                
+                
+
+            </MudCardContent>
+            <MudCardActions>
+<button type="button" class="btn btn-primary" >Login</button>            
+</MudCardActions>
+        </MudCard>
+    </MudItem>
+   </MudGrid>
+</EditForm>
+
+@code {
+    private Customer customer = new();
+    }

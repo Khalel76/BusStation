@@ -1,0 +1,75 @@
+﻿
+
+
+@using Station.Domain.Entities
+@using Station.ServicesInterfaces
+
+@if (isVisible)
+{
+    <br />
+        <br />
+    <br />
+
+    <div class="modal show" tabindex="-1" style="display: block;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@((Vehical.Id == 0) ? "Add Vehical" : "Edit Vehical")</h5>
+                    <button type="button" class="btn-close" aria-label="Close" @onclick="Cancel"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                       
+                    <MudTextField Label="Type" HelperText=""
+                              @bind-Value="Vehical.Type" For="@(() => Vehical.Type)"/>    
+                    </div>
+                    <div class="mb-3">
+                    <MudTextField Label="Plate" HelperText=""
+                              @bind-Value="Vehical.Plate" For="@(() => Vehical.Plate)"/> 
+                    </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="Cancel">Cancel</button>
+                    <button type="button" class="btn btn-primary" @onclick="Save">Save</button>
+                </div>
+     </div>
+        </div>
+    </div>
+   
+    }
+@code {
+    [Parameter] public EventCallback OnSave { get; set; }
+    [Inject] public IVehicalRep VehicalRep{ get; set; }
+    //bg
+
+    private bool isVisible;
+
+    private Vehical Vehical = new();
+
+    public void Show(Vehical Vehical)
+    {
+        this.Vehical = Vehical;
+        isVisible = true;
+    }
+    private async Task Save()
+    {
+        if (Vehical.Id == 0)
+        {
+            VehicalRep.Create(Vehical);
+        }
+        else
+        {
+            VehicalRep.Update(Vehical);
+        }
+
+        isVisible = false;
+        OnSave.InvokeAsync();
+    }
+
+    private void Cancel()
+    {
+        isVisible = false;
+    }
+}
+
