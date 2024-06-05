@@ -9,10 +9,10 @@ namespace Station.ServicesInterfaces
 {
     public interface IDriverRep
     {
-        void Create(Driver obj);
-        void Update(Driver obj);
-        void Delete(Driver Id);
-        IEnumerable<Driver> Get();
-        Driver GetById(int Id);
+        Task Create(Driver obj);
+        Task Update(Driver obj);
+        Task Delete(Driver Id);
+        Task<IEnumerable<Driver>> Get();
+        Task<Driver> GetById(int Id);
     }
 }

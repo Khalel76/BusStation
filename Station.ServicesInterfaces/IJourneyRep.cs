@@ -9,10 +9,10 @@ namespace Station.ServicesInterfaces
 {
     public interface IJourneyRep
     {
-        void Create(Journey obj);
-        void Update(Journey obj);
-        void Delete(Journey Id);
-        IEnumerable<Journey> Get();
-        Journey GetById(int Id);
+        Task Create(Journey obj);
+        Task Update(Journey obj);
+        Task Delete(Journey Id);
+        Task<IEnumerable<Journey>> Get();
+        Task<Journey> GetById(int Id);
     }
 }

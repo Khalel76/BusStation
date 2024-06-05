@@ -9,10 +9,10 @@ namespace Station.ServicesInterfaces
 {
     public interface ICustomerRep
     {
-        void Create(Customer obj);
-        void Update(Customer obj);
-        void Delete(Customer Id);
-        IEnumerable<Customer> Get();
-        Customer GetById(int Id);
+        Task Create(Customer obj);
+        Task Update(Customer obj);
+        Task Delete(Customer Id);
+        Task<IEnumerable<Customer>> Get();
+        Task<Customer> GetById(int Id);
     }
 }

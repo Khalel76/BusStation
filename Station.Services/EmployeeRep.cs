@@ -1,4 +1,5 @@
-﻿using Station.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Station.Domain.Entities;
 using Station.Persistance;
 using Station.ServicesInterfaces;
 using System;
@@ -17,33 +18,35 @@ namespace Station.Services
         {
             this.context = context;
         }
-        public void Create(Employee obj)
+        public async Task Create(Employee obj)
         {
             context.Employee.Add(obj);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
-        public void Delete(Employee Id)
+        public async Task Delete(Employee Id)
         {
             context.Employee.Remove(Id);
+            await context.SaveChangesAsync();
+
         }
 
-        public IEnumerable<Employee> Get()
+        public async Task<IEnumerable<Employee>> Get()
         {
-            var data = context.Employee.Select(x => x);
+            return [.. await context.Employee.ToListAsync()];
+
+        }
+
+        public async Task<Employee> GetById(int Id)
+        {
+            var data = await context.Employee.Where(x => x.Id == Id).FirstOrDefaultAsync();
             return data;
         }
 
-        public Employee GetById(int Id)
-        {
-            var data = context.Employee.Where(x => x.Id == Id).FirstOrDefault();
-            return data;
-        }
-
-        public void Update(Employee obj)
+        public async Task Update(Employee obj)
         {
             context.Employee.Update(obj);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
     }
 }

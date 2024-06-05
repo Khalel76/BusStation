@@ -58,27 +58,27 @@
 
     private Journey journey = new();
 
-    public void Show(Journey journey)
+    public async Task Show(Journey journey)
     {
         this.journey = journey;
         isVisible = true;
     }
-    private void Save()
+    private async Task Save()
     {
         if (journey.Id == 0)
         {
-            journeyRep.Create(journey);
+           await journeyRep.Create(journey);
         }
         else
         {
-            journeyRep.Update(journey);
+           await journeyRep.Update(journey);
         }
 
         isVisible = false;
         OnSave.InvokeAsync();
     }
 
-    private void Cancel()
+    private async Task Cancel()
     {
         isVisible = false;
     }

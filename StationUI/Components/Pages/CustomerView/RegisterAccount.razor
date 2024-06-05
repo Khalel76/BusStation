@@ -51,15 +51,15 @@
 
    
 
-    private void Save()
+    private async Task Save()
     {
         if (customer.Id == 0)
         {
-            CustomerRep.Create(customer);
+            await CustomerRep.Create(customer);
         }
         else
         {
-            CustomerRep.Update(customer);
+           await CustomerRep.Update(customer);
         }
 
          isVisible = false;

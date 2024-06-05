@@ -13,7 +13,7 @@
     <MudCardActions>
         
        <button type="button" class="btn btn-secondary" @onclick="@(()=>AddBooking(@normal,@t.Price,@t.Date,1,@t.Id))">normal</button>
-       <button type="button" class="btn btn-primary" @onclick="@(()=>AddBooking(@normal,@t.Price,@t.Date,1,@t.Id))">VIP</button>    
+       <button type="button" class="btn btn-primary" @onclick="@(()=>AddBooking(@vip,@t.Price,@t.Date,1,@t.Id))">VIP</button>    
 </MudCardActions>
 </MudCard> 
 
@@ -27,17 +27,17 @@
     private char normal = 'n';
     private char vip = 'v';
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        LoadJourneys();
+        await LoadJourneys();
     }
-        private void LoadJourneys()
+        private async Task LoadJourneys()
     {
-        journeys = journeyRep.Get();
+        journeys = await journeyRep.Get();
     }
-    private void RefreshList()
+    private async Task RefreshList()
     {
-        LoadJourneys();
+        await LoadJourneys();
     }
     private void AddBooking ( char type , float price , DateTime Date , int coustemrId , int journeyId)
     {

@@ -9,10 +9,10 @@ namespace Station.ServicesInterfaces
 {
     public interface IEmployeeRep
     {
-        void Create(Employee obj);
-        void Update(Employee obj);
-        void Delete(Employee Id);
-        IEnumerable<Employee> Get();
-        Employee GetById(int Id);
+        Task Create(Employee obj);
+        Task Update(Employee obj);
+        Task Delete(Employee Id);
+        Task<IEnumerable<Employee>> Get();
+        Task<Employee> GetById(int Id);
     }
 }

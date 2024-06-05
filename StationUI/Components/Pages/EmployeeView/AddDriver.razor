@@ -50,27 +50,27 @@
 
     private Driver driver = new();
 
-    public void Show(Driver driver)
+    public async Task Show(Driver driver)
     {
         this.driver = driver;
         isVisible = true;
     }
-    private void Save()
+    private async Task Save()
     {
         if (driver.Id == 0)
         {
-            driverRep.Create(driver);
+            await driverRep.Create(driver);
         }
         else
         {
-            driverRep.Update(driver);
+            await driverRep.Update(driver);
         }
 
         isVisible = false;
         OnSave.InvokeAsync();
     }
 
-    private void Cancel()
+    private async Task Cancel()
     {
         isVisible = false;
     }

@@ -51,31 +51,31 @@
         return Type;
     }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        LoadDreivers();
+        await LoadDriver();
     }
 
-     private void ShowAddModal()
-     {
-         addDriver.Show(new Driver());
-     }
-
-     private void ShowEditModal(Driver driver)
-     {
-         addDriver.Show(driver);
-     }
-
-    private void LoadDreivers()
+    private async Task ShowAddModal()
     {
-        Drivers = DriverRep.Get();
+        await addDriver.Show(new Driver());
     }
-    private void DeleteDriver(Driver driver)
+
+    private async Task ShowEditModal(Driver driver)
     {
-        DriverRep.Delete(driver);
+        await addDriver.Show(driver);
     }
-    private void RefreshList()
+
+    private async Task LoadDriver()
     {
-        LoadDreivers();
+        Drivers = await DriverRep.Get();
+    }
+    private async Task DeleteVehicel(Driver driver)
+    {
+        await DriverRep.Delete(driver);
+    }
+    private async void RefreshList()
+    {
+        await LoadDriver();
     }
 }

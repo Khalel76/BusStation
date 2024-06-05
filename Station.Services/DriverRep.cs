@@ -18,33 +18,35 @@ namespace Station.Services
         {
             this.context = context;
         }
-        public void Create(Driver obj)
+        public async Task Create(Driver obj)
         {
             context.Driver.Add(obj);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
-        public void Delete(Driver Id)
+        public async Task Delete(Driver Id)
         {
             context.Driver.Remove(Id);
+            await context.SaveChangesAsync();
+
         }
 
-        public IEnumerable<Driver> Get()
+        public async Task<IEnumerable<Driver>> Get()
         {
-            var data = context.Driver.Include("Vehical").Select(x => x);
+            return [.. await context.Driver.ToListAsync()];
+
+        }
+
+        public async Task<Driver> GetById(int Id)
+        {
+            var data = await context.Driver.Where(x => x.Id == Id).FirstOrDefaultAsync();
             return data;
         }
 
-        public Driver GetById(int Id)
-        {
-            var data = context.Driver.Where(x => x.Id == Id).FirstOrDefault();
-            return data;
-        }
-
-        public void Update(Driver obj)
+        public async Task Update(Driver obj)
         {
             context.Driver.Update(obj);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
     }
 }
