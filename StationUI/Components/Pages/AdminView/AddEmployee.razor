@@ -77,24 +77,24 @@
 
     private Employee employees = new();
 
-    public void Show(Employee employees)
+    public async Task Show(Employee employees)
     {
         this.employees = employees;
         isVisible = true;
     }
-    private void Save()
+    private async Task Save()
     {
         if (employees.Id == 0)
         {
-            EmployeeRep.Create(employees);
+            await EmployeeRep.Create(employees);
         }
         else
         {
-            EmployeeRep.Update(employees);
+            await EmployeeRep.Update(employees);
         }
 
         isVisible = false;
-        OnSave.InvokeAsync();
+        await OnSave.InvokeAsync();
     }
 
     private void Cancel()

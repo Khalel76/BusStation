@@ -67,7 +67,7 @@
         }
 
         isVisible = false;
-        OnSave.InvokeAsync();
+        await OnSave.InvokeAsync();
     }
 
     private async Task Cancel()
