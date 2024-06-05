@@ -1,4 +1,5 @@
-﻿using Station.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Station.Domain.Entities;
 using Station.Persistance;
 using Station.ServicesInterfaces;
 using System;
@@ -17,33 +18,35 @@ namespace Station.Services
         {
             this.context = context;
         }
-        public void Create(Journey obj)
+        public async Task Create(Journey obj)
         {
             context.Journey.Add(obj);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
-        public void Delete(Journey Id)
+        public async Task Delete(Journey Id)
         {
             context.Journey.Remove(Id);
+            await context.SaveChangesAsync();
+
         }
 
-        public IEnumerable<Journey> Get()
+        public async Task<IEnumerable<Journey>> Get()
         {
-            var data = context.Journey.Select(x => x);
+            return [.. await context.Journey.ToListAsync()];
+
+        }
+
+        public async Task<Journey> GetById(int Id)
+        {
+            var data = await context.Journey.Where(x => x.Id == Id).FirstOrDefaultAsync();
             return data;
         }
 
-        public Journey GetById(int Id)
-        {
-            var data = context.Journey.Where(x => x.Id == Id).FirstOrDefault();
-            return data;
-        }
-
-        public void Update(Journey obj)
+        public async Task Update(Journey obj)
         {
             context.Journey.Update(obj);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
     }
 }

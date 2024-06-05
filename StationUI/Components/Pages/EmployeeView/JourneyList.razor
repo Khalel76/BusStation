@@ -48,31 +48,31 @@
     
 
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        LoadJourney();
+        await LoadJourney();
     }
 
-     private void ShowAddModal()
+     private async Task ShowAddModal()
      {
-         addJourney.Show(new Journey());
+         await addJourney.Show(new Journey());
      }
 
-     private void ShowEditModal(Journey journey)
+     private async Task ShowEditModal(Journey journey)
      {
-         addJourney.Show(journey);
+         await addJourney.Show(journey);
      }
 
-    private void LoadJourney()
+    private async Task LoadJourney()
     {
-        journeys = JourneyRep.Get();
+         journeys = await JourneyRep.Get();
     }
-    private void DeleteJourney(Journey journey)
+    private async Task DeleteJourney(Journey journey)
     {
-        JourneyRep.Delete(journey);
+        await JourneyRep.Delete(journey);
     }
-    private void RefreshList()
+    private async Task RefreshList()
     {
-        LoadJourney();
+        await LoadJourney();
     }
 }

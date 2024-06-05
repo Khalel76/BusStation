@@ -1,4 +1,5 @@
-﻿using Station.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Station.Domain.Entities;
 using Station.Persistance;
 using Station.ServicesInterfaces;
 using System;
@@ -17,33 +18,35 @@ namespace Station.Persistance
         {
             this.context = context;
         }
-        public void Create(Customer obj)
+        public async Task Create(Customer obj)
         {
             context.Customer.Add(obj);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
-        public void Delete(Customer Id)
+        public async Task Delete(Customer Id)
         {
             context.Customer.Remove(Id);
+            await context.SaveChangesAsync();
+
         }
 
-        public IEnumerable<Customer> Get()
+        public async Task<IEnumerable<Customer>> Get()
         {
-            var data = context.Customer.Select(x => x);
+            return [.. await context.Customer.ToListAsync()];
+
+        }
+
+        public async Task<Customer> GetById(int Id)
+        {
+            var data = await context.Customer.Where(x => x.Id == Id).FirstOrDefaultAsync();
             return data;
         }
 
-        public Customer GetById(int Id)
-        {
-            var data = context.Customer.Where(x => x.Id == Id).FirstOrDefault();
-            return data;
-        }
-
-        public void Update(Customer obj)
+        public async Task Update(Customer obj)
         {
             context.Customer.Update(obj);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
     }
 }
