@@ -18,7 +18,7 @@ namespace Station.Services
         {
             this.context = context;
         }
-        public void AutoCreate (char type , float price , DateTime Date , int coustemrId , int journeyId)
+        public async Task AutoCreate (char type , float price , DateTime Date , int coustemrId , int journeyId)
        {
             Booking booking = new Booking();
             booking.Type=type;
@@ -27,7 +27,7 @@ namespace Station.Services
             booking.CustomerId=coustemrId;
             booking.JourneyId=journeyId;
             context.Booking.Add(booking);
-            context.SaveChanges();
+            context.SaveChangesAsync();
         }
         public async Task Create(Booking obj)
         {

@@ -1,0 +1,74 @@
+@using Station.Domain.Entities
+@using Station.ServicesInterfaces
+@page "/Booking"
+<br />
+
+<h3>Booking List</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Type</th>
+            <th>Date</th>
+            <th>Customer Id</th>
+            <th>Journey Id</th>
+        </tr>
+    </thead>
+    <tbody>
+         @if (bookings == null)
+{
+    <span>Loading...</span>
+}
+        else{
+        @foreach (var booking in bookings)
+        {
+            <tr>
+                <td>@booking.Id</td>
+                <td>@booking.Type</td>
+                <td>@booking.Date</td>
+                <td>@booking.CustomerId</td>
+                <td>@booking.JourneyId</td>
+                
+                <td>
+                    
+                    <button class="btn btn-danger" @onclick="() => DeleteBooking(booking)">Delete</button>
+                </td>
+            </tr>
+        }
+        }
+    </tbody>
+</table>
+
+ 
+
+@code {
+    [Inject] IBookingRep BookingRep { set; get; }
+    
+    
+    private IEnumerable<Booking> bookings;
+    
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadBooking();
+    }
+
+     
+
+    
+
+    private async Task LoadBooking()
+    {
+         bookings = await BookingRep.Get();
+    }
+    private async Task DeleteBooking(Booking booking)
+    {
+        await BookingRep.Delete(booking);
+    }
+    private async Task RefreshList()
+    {
+        await LoadBooking();
+    }
+}

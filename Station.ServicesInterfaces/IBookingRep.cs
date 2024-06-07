@@ -9,7 +9,7 @@ namespace Station.ServicesInterfaces
 {
     public interface IBookingRep
     {
-        void AutoCreate (char type , float price , DateTime Date , int coustemrId , int journeyId);
+        Task AutoCreate (char type , float price , DateTime Date , int coustemrId , int journeyId);
         Task Create(Booking obj);
         Task Update(Booking obj);
         Task Delete(Booking Id);

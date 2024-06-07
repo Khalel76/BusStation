@@ -4,7 +4,7 @@
 @using System.ComponentModel.DataAnnotations
 @using Station.Domain.Entities
 @using Station.ServicesInterfaces
-
+@inject NavigationManager NavigationManager
 
 <EditForm Model="@customer" >
 <DataAnnotationsValidator/>
@@ -46,24 +46,22 @@
     private Customer customer = new();
     private bool isVisible;
     
-     [Parameter] public EventCallback OnSave { get; set; }
+
+    [Parameter] public EventCallback OnSave { get; set; }
     [Inject] public ICustomerRep CustomerRep{ get; set; }
 
-   
+    
 
     private async Task Save()
     {
-        if (customer.Id == 0)
-        {
+        
             await CustomerRep.Create(customer);
-        }
-        else
-        {
-           await CustomerRep.Update(customer);
-        }
+        
 
          isVisible = false;
-        OnSave.InvokeAsync();
+         await OnSave.InvokeAsync();
+         NavigationManager.NavigateTo("/Login");
+
     }
 
 }

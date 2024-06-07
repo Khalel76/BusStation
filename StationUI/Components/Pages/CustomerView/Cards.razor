@@ -1,6 +1,11 @@
 @page "/Cards"
 @using Station.Domain.Entities
 @using Station.ServicesInterfaces
+  @if (journeys == null)
+{
+    <span>Loading...</span>
+}
+        else{
  @foreach (var t in journeys) 
 {
  <MudCard>
@@ -11,12 +16,13 @@
         <MudText Typo="Typo.body2">price $@t.Price</MudText>
     </MudCardContent>
     <MudCardActions>
-        
-       <button type="button" class="btn btn-secondary" @onclick="@(()=>AddBooking(@normal,@t.Price,@t.Date,1,@t.Id))">normal</button>
-       <button type="button" class="btn btn-primary" @onclick="@(()=>AddBooking(@vip,@t.Price,@t.Date,1,@t.Id))">VIP</button>    
-</MudCardActions>
-</MudCard> 
 
+                <button type="button" class="btn btn-secondary" @onclick="@(()=>AddBooking(@normal,@t.Price,@t.Date,1,@t.Id))">normal <br />$@t.Price </button>
+                <button type="button" class="btn btn-primary" @onclick="@(()=>AddBooking(@vip,@t.Price+50,@t.Date,1,@t.Id))">VIP <br />$@t.Price+50</button>
+
+            </MudCardActions>
+</MudCard> 
+}
 }
 
 @code

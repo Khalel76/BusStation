@@ -19,6 +19,11 @@
         </tr>
     </thead>
     <tbody>
+        @if (employees == null)
+{
+    <span>Loading...</span>
+}
+        else{
         @foreach (var emp in employees)
         {
             <tr>
@@ -32,6 +37,7 @@
                     <button class="btn btn-danger" @onclick="() => DeleteEmployee(emp)">Delete</button>
                 </td>
             </tr>
+        }
         }
     </tbody>
 </table>
