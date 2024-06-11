@@ -15,5 +15,7 @@ namespace Station.ServicesInterfaces
         Task Delete(Booking Id);
         Task<IEnumerable<Booking>> Get();
         Task<Booking> GetById(int Id);
+        bool IsBooking(int JourneyId, int CustomerId);
+
     }
 }

@@ -9,17 +9,22 @@
  @foreach (var t in journeys) 
 {
  <MudCard>
-    <MudCardMedia Image="images/door.jpg" Height="200" />
+    <MudCardMedia Image="Imaga\vector-city-bus-stop-flat-poster.jp" Height="200" />
     <MudCardContent>
         <MudText Typo="Typo.h5">@t.Destination</MudText>
         <MudText Typo="Typo.body2">Date @t.Date </MudText>
         <MudText Typo="Typo.body2">price $@t.Price</MudText>
     </MudCardContent>
     <MudCardActions>
-
+                @if(IsBooking(t.Id)==false)
+                {
                 <button type="button" class="btn btn-secondary" @onclick="@(()=>AddBooking(@normal,@t.Price,@t.Date,1,@t.Id))">normal <br />$@t.Price </button>
-                <button type="button" class="btn btn-primary" @onclick="@(()=>AddBooking(@vip,@t.Price+50,@t.Date,1,@t.Id))">VIP <br />$@t.Price+50</button>
-
+                <button type="button" class="btn btn-primary" @onclick="@(()=>AddBooking(@vip,@t.Price+50,@t.Date,2,@t.Id))">VIP <br />$@t.Price+50</button>
+                }
+                else 
+                {
+                    <MudText Color="Color.Success">you alredy booking</MudText>
+                }
             </MudCardActions>
 </MudCard> 
 }
@@ -32,6 +37,7 @@
     private IEnumerable<Journey> journeys ;
     private char normal = 'n';
     private char vip = 'v';
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -48,6 +54,11 @@
     private void AddBooking ( char type , float price , DateTime Date , int coustemrId , int journeyId)
     {
         bookingRep.AutoCreate(type , price , Date , coustemrId , journeyId);
+        LoadJourneys();
+    }
+    private bool IsBooking(int Id)
+    {
+        return bookingRep.IsBooking(Id,3);
     }
 
 }    

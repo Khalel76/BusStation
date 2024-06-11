@@ -66,6 +66,7 @@
     private async Task DeleteBooking(Booking booking)
     {
         await BookingRep.Delete(booking);
+        LoadBooking();
     }
     private async Task RefreshList()
     {
