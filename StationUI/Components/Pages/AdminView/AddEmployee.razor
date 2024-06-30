@@ -39,10 +39,11 @@
                               @bind-Value="employees.Password" For="@(() => employees.Password)" InputType="InputType.Password"/> 
                     </div>
                     <div class="mb-3">
-                        
+
+                        @* <MudDatePicker Label="Editable with Placeholder" Editable="true" @bind-Date="employees.HireDate" Placeholder="Select Date" /> *@
 
                         <MudTextField Label="HireDate" HelperText=""
-                              @bind-Value="employees.HireDate" For="@(() => employees.HireDate)" InputType="InputType.Date"/> 
+                              @bind-Value="employees.HireDate" InputType="InputType.Date"/> 
                     </div>
                     <div class="mb-3">
                         
@@ -54,7 +55,7 @@
                         
 
                         <MudTextField Label="Address" HelperText=""
-                              @bind-Value="employees.Address" /> 
+                              @bind-Value="employees.Address" For="@(() => employees.Address)" />
                     </div>
                     <div class="mb-3">
                         <MudCheckBox T="bool" Label="Active" @bind-Value="employees.IsActive" For="@(() => employees.IsActive)"/>

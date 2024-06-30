@@ -16,7 +16,13 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 builder.Services.AddDbContextFactory<StationContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DBConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DBConnection"),options=>
+    options.EnableRetryOnFailure(
+        maxRetryCount:5,
+        maxRetryDelay:System.TimeSpan.FromSeconds(30),
+        errorNumbersToAdd: null)
+    )
+    );
     
 builder.Services.AddScoped<IEmployeeRep, EmployeeRep>();
 builder.Services.AddScoped<IDriverRep, DriverRep>();
