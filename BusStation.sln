@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Station.ServicesInterfaces"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StationUI", "StationUI\StationUI.csproj", "{3649727E-2F1B-44F7-A13D-BD1252C48E77}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Station.Test", "Station.Test\Station.Test.csproj", "{91A1C53F-7D58-4194-9DE1-9387532F77F0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{3649727E-2F1B-44F7-A13D-BD1252C48E77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3649727E-2F1B-44F7-A13D-BD1252C48E77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3649727E-2F1B-44F7-A13D-BD1252C48E77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91A1C53F-7D58-4194-9DE1-9387532F77F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91A1C53F-7D58-4194-9DE1-9387532F77F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91A1C53F-7D58-4194-9DE1-9387532F77F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91A1C53F-7D58-4194-9DE1-9387532F77F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

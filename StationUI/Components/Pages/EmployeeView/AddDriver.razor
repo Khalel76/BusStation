@@ -1,6 +1,6 @@
 
 
-
+@page "/AddDriver"
 @using Station.Domain.Entities
 @using Station.ServicesInterfaces
 
@@ -67,7 +67,7 @@
         }
 
         isVisible = false;
-        OnSave.InvokeAsync();
+        await OnSave.InvokeAsync();
     }
 
     private async Task Cancel()

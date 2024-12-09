@@ -4,7 +4,7 @@
 <br />
 
 <h3>Drivers List</h3>
-<button class="btn btn-primary" @onclick="ShowAddModal">Add New Vihical</button>
+<button class="btn btn-primary" @onclick="ShowAddModal">Add New Driver</button>
 
 <table class="table">
     <thead>
@@ -12,23 +12,29 @@
             <th>Name</th>
             <th>Phone</th>
             <th>Vehical Type</th>
-            
+            <th>Vehical Plate</th>
         </tr>
     </thead>
     <tbody>
+         @if (Drivers == null)
+{
+    <span>Loading...</span>
+}
+        else{
         @foreach (var dri in Drivers)
         {
             <tr>
                 <td>@dri.Name</td>
                 <td>@dri.Phone</td>
-                <td>@GetType(dri.VehicalId)</td>
-               
+                <td>@GetvehicalType(dri.VehicalId)</td>
+                <td>@GetvehicalPlate(dri.VehicalId)</td>
                 <td>
                     
                     <button class="btn btn-secondary" @onclick="() => ShowEditModal(dri)">Edit</button>
                     <button class="btn btn-danger" @onclick="() => DeleteDriver(dri)">Delete</button>
                 </td>
             </tr>
+        }
         }
     </tbody>
 </table>
@@ -39,16 +45,22 @@
 @code {
     [Inject] IVehicalRep vehicalRep { set; get;}
     [Inject] IDriverRep DriverRep { set; get; }
-    @* [Inject] IVehicalRep vehicalRep {set; get;}
-    private string Type ; *@
+    private string Plate;
+
     private string Type ;
     private IEnumerable<Driver> Drivers;
     private AddDriver addDriver;
     
-    private string GetType (int id)
+    private string GetvehicalType(int id)
     {
         Type= vehicalRep.GetType(id);
         return Type;
+    }
+
+    private string GetvehicalPlate(int id)
+    {
+        Plate = vehicalRep.GetPlate(id);
+        return Plate;
     }
 
     protected override async Task OnInitializedAsync()
@@ -70,7 +82,7 @@
     {
         Drivers = await DriverRep.Get();
     }
-    private async Task DeleteVehicel(Driver driver)
+    private async Task DeleteDriver(Driver driver)
     {
         await DriverRep.Delete(driver);
     }

@@ -44,13 +44,13 @@ namespace Station.Services
 
          public string GetType(int Id)
         {
-            var data = context.Vehical.Where(x => x.Id == Id).Select( x => x.Type).FirstOrDefault();
+            var data =  context.Vehical.Where(x => x.Id == Id).Select( x => x.Type).FirstOrDefault();
             return data;
         }
         
         public string GetPlate(int Id)
         {
-            var data = context.Vehical.Where(x => x.Id == Id).Select( x => x.Plate).FirstOrDefault();
+            var data =  context.Vehical.Where(x => x.Id == Id).Select( x => x.Plate).FirstOrDefault();
             return data;
         }
         public async Task Update(Vehical obj)

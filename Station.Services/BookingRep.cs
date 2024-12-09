@@ -18,16 +18,30 @@ namespace Station.Services
         {
             this.context = context;
         }
-        public void AutoCreate (char type , float price , DateTime Date , int coustemrId , int journeyId)
+
+        public bool IsBooking(int JourneyId, int CustomerId)
+        {
+             try
+             {
+            var data =context.Booking.FirstOrDefault(x => x.JourneyId==JourneyId && x.CustomerId==CustomerId).Id > 0;
+            return true;
+             }
+
+            catch(Exception ex)
+            {
+            return false;
+            }
+        }
+        public async Task AutoCreate (char type , float price , DateTime Date , int coustemrId , int journeyId)
        {
             Booking booking = new Booking();
             booking.Type=type;
             booking.Price=price;
-            booking.Date=Date;
+            booking.Date=DateTime.Now;
             booking.CustomerId=coustemrId;
             booking.JourneyId=journeyId;
             context.Booking.Add(booking);
-            context.SaveChanges();
+            context.SaveChangesAsync();
         }
         public async Task Create(Booking obj)
         {

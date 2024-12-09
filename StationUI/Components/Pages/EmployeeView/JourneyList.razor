@@ -3,8 +3,8 @@
 @page "/Journey"
 <br />
 
-<h3>Journey List</h3>
-<button class="btn btn-primary" @onclick="ShowAddModal">Add New Vihical</button>
+<h3>Journeys List</h3>
+<button class="btn btn-primary" @onclick="ShowAddModal">Add New Journey</button>
 
 <table class="table">
     <thead>
@@ -17,6 +17,11 @@
         </tr>
     </thead>
     <tbody>
+         @if (journeys == null)
+{
+    <span>Loading...</span>
+}
+        else{
         @foreach (var jor in journeys)
         {
             <tr>
@@ -31,6 +36,7 @@
                     <button class="btn btn-danger" @onclick="() => DeleteJourney(jor)">Delete</button>
                 </td>
             </tr>
+        }
         }
     </tbody>
 </table>

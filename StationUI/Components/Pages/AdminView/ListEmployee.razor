@@ -19,6 +19,11 @@
         </tr>
     </thead>
     <tbody>
+        @if (employees == null)
+{
+    <span>Loading...</span>
+}
+        else{
         @foreach (var emp in employees)
         {
             <tr>
@@ -29,9 +34,10 @@
                 <td>
                     
                     <button class="btn btn-secondary" @onclick="() => ShowEditModal(emp)">Edit</button>
-                    <button class="btn btn-danger" @onclick="() => DeleteBook(emp)">Delete</button>
+                    <button class="btn btn-danger" @onclick="() => DeleteEmployee(emp)">Delete</button>
                 </td>
             </tr>
+        }
         }
     </tbody>
 </table>
@@ -42,34 +48,34 @@
     private IEnumerable<Employee> employees;
     private AddEmployee addEmployee;
    
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        LoadEmployee();
+       await LoadEmployee();
     }
 
-    private void LoadEmployee()
+    private async Task LoadEmployee()
     {
-        employees = EmployeeRep.Get();
+        employees = await EmployeeRep.Get();
     }
 
-    private void ShowAddModal()
+    private async Task ShowAddModal()
     {
-        addEmployee.Show(new Employee());
+         await addEmployee.Show(new Employee());
     }
 
-    private void ShowEditModal(Employee employee)
+    private async Task ShowEditModal(Employee employee)
     {
-        addEmployee.Show(employee);
+        await addEmployee.Show(employee);
     }
 
-    private void DeleteBook(Employee employee)
+    private async Task DeleteEmployee(Employee employee)
     {
-        EmployeeRep.Delete(employee);
-        LoadEmployee();
+        await EmployeeRep.Delete(employee);
+        await LoadEmployee();
     }
 
-    private void RefreshList()
+    private async Task RefreshList()
     {
-        LoadEmployee();
+        await LoadEmployee();
     }
 }
